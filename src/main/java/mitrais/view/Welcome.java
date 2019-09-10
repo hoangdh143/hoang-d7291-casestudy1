@@ -1,6 +1,8 @@
 package mitrais.view;
 
 import mitrais.model.Account;
+import mitrais.repository.AccountRepoFactory;
+import mitrais.repository.AccountRepository;
 import mitrais.validator.AccountValidationContext;
 import mitrais.validator.AccountValidationStrategy;
 import mitrais.validator.ValidationStrategy;
@@ -13,6 +15,11 @@ import java.util.Set;
 import static jdk.nashorn.internal.runtime.regexp.RegExpFactory.validate;
 
 public class Welcome implements Screen {
+    private AccountRepository accountRepository = AccountRepoFactory.getAccountRepository();
+
+    public Welcome() {
+    }
+
     @Override
     public void display() {
         Scanner in = new Scanner(System.in);
@@ -37,7 +44,12 @@ public class Welcome implements Screen {
             System.out.println(errorCode);
             this.display();
         } else {
-            new Transaction().display();
+            Account accountDb = accountRepository.get(account.getAccountNumber(), account.getPin());
+            if (accountDb == null) {
+                System.out.println("Invalid Account Number/PIN");
+                this.display();
+            }
+            new Transaction(this, accountDb).display();
         }
     }
 }

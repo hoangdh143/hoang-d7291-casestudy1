@@ -3,8 +3,18 @@ package mitrais.model;
 public class Account {
     private String name;
     private String pin;
-    private Double balance;
+    private Integer balance;
     private String accountNumber;
+
+    public Account(String name, String pin, Integer balance, String accountNumber) {
+        setName(name);
+        setPin(pin);
+        setBalance(balance);
+        setAccountNumber(accountNumber);
+    }
+
+    public Account() {
+    }
 
     public String getName() {
         return name;
@@ -22,11 +32,11 @@ public class Account {
         this.pin = pin;
     }
 
-    public Double getBalance() {
+    public Integer getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(Integer balance) {
         this.balance = balance;
     }
 
