@@ -1,18 +1,21 @@
 package mitrais.view;
 
+import lombok.Data;
 import mitrais.model.TransferSummary;
+import mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
 
-public class TransSummary implements Screen {
-    private TransferSummary transferSummary;
+@Data
+public class TransSummary implements View {
+    private Dispatcher dispatcher;
 
-    public TransSummary(TransferSummary transferSummary) {
-        this.transferSummary = transferSummary;
+    public TransSummary() {
     }
 
     @Override
     public void display() {
+        TransferSummary transferSummary = dispatcher.getTransferSummary();
         Scanner in = new Scanner(System.in);
         System.out.println(String.format("Fund Transfer Summary\n" +
                 "Destination Account : %s\n" +
@@ -24,15 +27,16 @@ public class TransSummary implements Screen {
                 "2. Exit\n" +
                 "Choose option[2]:", transferSummary.getDestinationAccount(), transferSummary.getTransferAmount(),
                 transferSummary.getReferenceNumber(), transferSummary.getBalance()));
-        int option = in.nextInt();
+        String option = in.nextLine();
         switch (option) {
-            case 1:
-                new Transaction().display();
+            case "1":
+                dispatcher.dispatch("TRANSACTION");
                 break;
-            case 2:
-                new Welcome().display();
+            case "2":
+                dispatcher.dispatch("WELCOME");
                 break;
             default:
+                dispatcher.dispatch("WELCOME");
         }
     }
 }

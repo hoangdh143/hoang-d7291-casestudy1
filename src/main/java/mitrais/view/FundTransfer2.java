@@ -1,39 +1,32 @@
 package mitrais.view;
 
-import mitrais.model.Account;
+import lombok.Data;
 import mitrais.model.TransferConfirmation;
+import mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
 
-public class FundTransfer2 implements Screen {
-    private TransferConfirmation transferConfirmation;
-    private Screen previousScreen;
+@Data
+public class FundTransfer2 implements View {
+    private Dispatcher dispatcher;
 
-    public FundTransfer2(Screen previousScreen, TransferConfirmation transferConfirmation) {
-        this.transferConfirmation = transferConfirmation;
-        this.previousScreen = previousScreen;
+    public FundTransfer2() {
     }
 
     @Override
     public void display() {
+        TransferConfirmation transferConfirmation = dispatcher.getTransferConfirmation();
         Scanner in = new Scanner(System.in);
         System.out.println("Please enter transfer amount and \n" +
                 "press enter to continue or \n" +
                 "press enter to go back to Transaction: ");
-        String input = in.next();
+        String input = in.nextLine();
         if (input.equals("")) {
-            previousScreen.display();
+            dispatcher.dispatch("TRANSACTION");
         } else {
             transferConfirmation.setTransferAmount(input);
-            new FundTransfer3(this, transferConfirmation).display();
+            dispatcher.setTransferConfirmation(transferConfirmation);
+            dispatcher.dispatch("FUNDTRANSFER3");
         };
-    }
-
-    public Screen getPreviousScreen() {
-        return previousScreen;
-    }
-
-    public void setPreviousScreen(Screen previousScreen) {
-        this.previousScreen = previousScreen;
     }
 }

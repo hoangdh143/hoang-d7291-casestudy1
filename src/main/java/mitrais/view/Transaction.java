@@ -1,17 +1,14 @@
 package mitrais.view;
 
+import lombok.Data;
 import mitrais.model.Account;
+import mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
 
-public class Transaction implements Screen {
-    private Account account;
-    private Welcome welcome;
-
-    public Transaction(Welcome welcome, Account account) {
-        setAccount(account);
-        setWelcome(welcome);
-    }
+@Data
+public class Transaction implements View {
+    private Dispatcher dispatcher;
 
     public Transaction() {
     }
@@ -24,35 +21,19 @@ public class Transaction implements Screen {
                 "2. Fund Transfer\n" +
                 "3. Exit\n" +
                 "Please choose option[3]:");
-        int option = in.nextInt();
+        String option = in.nextLine();
         switch (option) {
-            case 1:
-                new Withdraw(this, account).display();
+            case "1":
+                dispatcher.dispatch("WITHDRAW");
                 break;
-            case 2:
-                new FundTransfer(this, account).display();
+            case "2":
+                dispatcher.dispatch("FUNDTRANSFER");
                 break;
-            case 3:
-                welcome.display();
+            case "3":
+                dispatcher.dispatch("WELCOME");
                 break;
             default:
-                this.display();
+                dispatcher.dispatch("WELCOME");
         }
-    }
-
-    public Account getAccount() {
-        return account;
-    }
-
-    public void setAccount(Account account) {
-        this.account = account;
-    }
-
-    public Welcome getWelcome() {
-        return welcome;
-    }
-
-    public void setWelcome(Welcome welcome) {
-        this.welcome = welcome;
     }
 }

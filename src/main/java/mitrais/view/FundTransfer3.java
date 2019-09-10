@@ -1,28 +1,29 @@
 package mitrais.view;
 
-import mitrais.model.Account;
+import lombok.Data;
 import mitrais.model.TransferConfirmation;
+import mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
 
-public class FundTransfer3 implements Screen {
+@Data
+public class FundTransfer3 implements View {
+    private Dispatcher dispatcher;
     private static String NUMERIC_STRING = "0123456789";
-    private TransferConfirmation transferConfirmation;
-    private Screen previousScreen;
 
-    public FundTransfer3(Screen previousScreen, TransferConfirmation transferConfirmation) {
-        this.previousScreen = previousScreen;
-        this.transferConfirmation = transferConfirmation;
+    public FundTransfer3() {
     }
 
     @Override
     public void display() {
+        TransferConfirmation transferConfirmation = dispatcher.getTransferConfirmation();
         Scanner in = new Scanner(System.in);
         String refNumber = createRandomString();
         System.out.println(String.format("Reference Number: %s\n press enter to continue", refNumber));
-        String accountNumber = in.nextLine();
+        String nextStep = in.nextLine();
         transferConfirmation.setReferenceNumber(refNumber);
-        new FundTransfer4(transferConfirmation).display();
+        dispatcher.setTransferConfirmation(transferConfirmation);
+        dispatcher.dispatch("FUNDTRANSFER4");
     }
 
 
@@ -34,13 +35,5 @@ public class FundTransfer3 implements Screen {
             builder.append(NUMERIC_STRING.charAt(character));
         }
         return builder.toString();
-    }
-
-    public Screen getPreviousScreen() {
-        return previousScreen;
-    }
-
-    public void setPreviousScreen(Screen previousScreen) {
-        this.previousScreen = previousScreen;
     }
 }

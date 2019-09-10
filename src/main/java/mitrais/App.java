@@ -5,6 +5,8 @@ import mitrais.repository.AccountRepoFactory;
 import mitrais.repository.AccountRepository;
 import mitrais.repository.AccountRepositoryImpl;
 import mitrais.view.Welcome;
+import mitrais.viewhandler.FrontController;
+import mitrais.viewhandler.FrontControllerImpl;
 
 /**
  * Hello world!
@@ -19,6 +21,8 @@ public class App
         accountRepository.save(new Account("Jane Doe","932012", 30, "112244"));
         AccountRepoFactory.setAccountRepository(accountRepository);
 
-        new Welcome().display();
+        FrontController frontController = new FrontControllerImpl();
+        frontController.goToView("WELCOME");
+
     }
 }

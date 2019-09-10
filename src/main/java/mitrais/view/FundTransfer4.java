@@ -1,25 +1,28 @@
 package mitrais.view;
 
+import lombok.Data;
 import mitrais.model.TransferConfirmation;
 import mitrais.model.TransferSummary;
 import mitrais.repository.AccountRepoFactory;
+import mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
 
-public class FundTransfer4 implements Screen {
-    private TransferConfirmation transferConfirmation;
+@Data
+public class FundTransfer4 implements View {
+    private Dispatcher dispatcher;
 
-    public FundTransfer4(TransferConfirmation transferConfirmation) {
-        this.transferConfirmation = transferConfirmation;
+    public FundTransfer4() {
     }
 
     @Override
     public void display() {
+        TransferConfirmation transferConfirmation = dispatcher.getTransferConfirmation();
         Scanner in = new Scanner(System.in);
         System.out.println(String.format("Transfer Confirmation\n" +
-                "Destination Account : xxx-xxx-xxx-x\n" +
-                "Transfer Amount     : $yy\n" +
-                "Reference Number    : zzzzzzzzzzzzz\n" +
+                "Destination Account : %s\n" +
+                "Transfer Amount     : $%s\n" +
+                "Reference Number    : %s\n" +
                 "\n" +
                 "1. Confirm Trx\n" +
                 "2. Cancel Trx\n" +
@@ -27,9 +30,9 @@ public class FundTransfer4 implements Screen {
                 transferConfirmation.getDestinationAccount(),
                 transferConfirmation.getTransferAmount(),
                 transferConfirmation.getReferenceNumber()));
-        int confirm = in.nextInt();
+        String confirm = in.nextLine();
         switch (confirm) {
-            case 1:
+            case "1":
                 try {
                 TransferSummary transferSummary = AccountRepoFactory.getAccountRepository().transfer(
                         transferConfirmation.getAccount().getAccountNumber(),
@@ -37,16 +40,18 @@ public class FundTransfer4 implements Screen {
                         transferConfirmation.getTransferAmount(),
                         transferConfirmation.getReferenceNumber()
                 );
-                new TransSummary(transferSummary).display();
+                dispatcher.setTransferSummary(transferSummary);
+                dispatcher.dispatch("TRANSSUMMARY");
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
-
+                    dispatcher.dispatch("TRANSACTION");
                 }
                 break;
-            case 2:
+            case "2":
+                dispatcher.dispatch("TRANSACTION");
                 break;
             default:
-                this.display();
+                dispatcher.dispatch("TRANSACTION");
         }
     }
 }
