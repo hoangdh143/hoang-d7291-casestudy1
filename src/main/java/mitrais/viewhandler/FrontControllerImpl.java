@@ -1,7 +1,6 @@
 package mitrais.viewhandler;
 
 import lombok.Data;
-import mitrais.view.View;
 
 @Data
 public class FrontControllerImpl implements FrontController {

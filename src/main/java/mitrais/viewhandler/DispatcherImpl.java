@@ -1,6 +1,5 @@
 package mitrais.viewhandler;
 
-import mitrais.exception.ViewNotFoundException;
 import mitrais.model.Account;
 import mitrais.model.TransactionSummary;
 import mitrais.model.TransferConfirmation;
@@ -23,7 +22,6 @@ public class DispatcherImpl implements Dispatcher {
     @Override
     public void dispatch(String viewName) {
         View view = viewMap.get(viewName);
-//        if (view == null) throw new ViewNotFoundException(String.format("View %s not found", viewName));
         if (view == null) return;
         view.display();
     }

@@ -19,9 +19,9 @@ public class TransSummary implements View {
         Scanner in = new Scanner(System.in);
         System.out.println(String.format("Fund Transfer Summary\n" +
                 "Destination Account : %s\n" +
-                "Transfer Amount     : %s\n" +
+                "Transfer Amount     : $%s\n" +
                 "Reference Number    : %s\n" +
-                "Balance             : %s\n" +
+                "Balance             : $%s\n" +
                 "\n" +
                 "1. Transaction\n" +
                 "2. Exit\n" +

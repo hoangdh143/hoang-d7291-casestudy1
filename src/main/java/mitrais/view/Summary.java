@@ -2,9 +2,10 @@ package mitrais.view;
 
 import lombok.Data;
 import mitrais.model.TransactionSummary;
-import mitrais.model.TransferSummary;
 import mitrais.viewhandler.Dispatcher;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 @Data
@@ -19,15 +20,16 @@ public class Summary implements View {
         TransactionSummary transactionSummary = dispatcher.getTransactionSummary();
 
         Scanner in = new Scanner(System.in);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm a");
         String summary = String.format("Summary\n" +
                 "Date : %s\n" +
-                "Withdraw : %d\n" +
-                "Balance : %d\n" +
+                "Withdraw : $%d\n" +
+                "Balance : $%d\n" +
                 "\n" +
                 "1. Transaction \n" +
                 "2. Exit\n" +
                 "Choose option[2]:",
-                transactionSummary.getDate(),
+                dateFormat.format(transactionSummary.getDate()),
                 transactionSummary.getWithDraw(),
                 transactionSummary.getBalance());
         System.out.println(summary);

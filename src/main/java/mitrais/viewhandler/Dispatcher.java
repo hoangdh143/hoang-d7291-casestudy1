@@ -1,11 +1,9 @@
 package mitrais.viewhandler;
 
-import mitrais.exception.ViewNotFoundException;
 import mitrais.model.Account;
 import mitrais.model.TransactionSummary;
 import mitrais.model.TransferConfirmation;
 import mitrais.model.TransferSummary;
-import mitrais.view.View;
 
 public interface Dispatcher {
     void dispatch(String viewName);

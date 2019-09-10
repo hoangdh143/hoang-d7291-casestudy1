@@ -1,7 +1,6 @@
 package mitrais.view;
 
 import lombok.Data;
-import mitrais.model.Account;
 import mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
@@ -32,8 +31,11 @@ public class Transaction implements View {
             case "3":
                 dispatcher.dispatch("WELCOME");
                 break;
-            default:
+            case "":
                 dispatcher.dispatch("WELCOME");
+                break;
+            default:
+                dispatcher.dispatch("TRANSACTION");
         }
     }
 }

@@ -7,8 +7,6 @@ import mitrais.model.TransferSummary;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 public class AccountRepositoryImpl implements AccountRepository {
     private static HashMap<String, Account> accountList = new HashMap<>();
@@ -35,8 +33,8 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public TransactionSummary deduct(Account account, int i) throws BalanceInsufficientException, MaximumAmountException, InvalidAmountException {
-        if (i % 10 != 0) throw new InvalidAmountException("Invalid ammount");
         if (i > 1000) throw new MaximumAmountException("Maximum amount to withdraw is $1000");
+        if (i % 10 != 0) throw new InvalidAmountException("Invalid ammount");
         Account accoundDb = accountList.get(account.getAccountNumber());
         if (accoundDb != null) {
             if (i > accoundDb.getBalance()) throw new BalanceInsufficientException("Insufficient balance $" + i);
@@ -61,7 +59,7 @@ public class AccountRepositoryImpl implements AccountRepository {
         try {amount = Integer.parseInt(transferAmount);} catch (NumberFormatException e) {throw new InvalidAccountException("Invalid amount");}
         if (amount > 1000) throw new MaximumAmountException("Maximum amount to withdraw is $1000");
         if (amount < 0) throw new MinimumAmountException("Minimum amount to withdraw is $1");
-        if (amount > sourceAccount.getBalance()) throw new BalanceInsufficientException("Insufficient balance $ " + amount);
+        if (amount > sourceAccount.getBalance()) throw new BalanceInsufficientException("Insufficient balance $" + amount);
         try {Integer.parseInt(refNumber);} catch (NumberFormatException e) {throw new InvalidRefNumberException("Invalid Reference Number");}
 
         sourceAccount.setBalance(sourceAccount.getBalance() - amount);

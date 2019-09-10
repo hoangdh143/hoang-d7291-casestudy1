@@ -1,39 +1,18 @@
 package mitrais.model;
 
+import lombok.Data;
+
 import java.util.Date;
 
+@Data
 public class TransactionSummary {
-    Date date;
-    Integer withDraw;
-    Integer balance;
+    private Date date;
+    private Integer withDraw;
+    private Integer balance;
 
     public TransactionSummary(Date date, Integer withDraw, Integer balance) {
         this.date = date;
         this.withDraw = withDraw;
-        this.balance = balance;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Integer getWithDraw() {
-        return withDraw;
-    }
-
-    public void setWithDraw(Integer withDraw) {
-        this.withDraw = withDraw;
-    }
-
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Integer balance) {
         this.balance = balance;
     }
 }
