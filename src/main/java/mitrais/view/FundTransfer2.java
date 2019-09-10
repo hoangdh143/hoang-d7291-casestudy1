@@ -1,32 +1,32 @@
 package mitrais.view;
 
 import lombok.Data;
-import mitrais.model.Account;
 import mitrais.model.TransferConfirmation;
 import mitrais.viewhandler.Dispatcher;
 
 import java.util.Scanner;
 
 @Data
-public class FundTransfer implements View {
+public class FundTransfer2 implements View {
     private Dispatcher dispatcher;
 
-    public FundTransfer() {
+    public FundTransfer2() {
     }
 
     @Override
     public void display() {
-        Account account = dispatcher.getAccount();
+        TransferConfirmation transferConfirmation = dispatcher.getTransferConfirmation();
         Scanner in = new Scanner(System.in);
-        System.out.println("Please enter destination account and press enter to continue or \n" +
+        System.out.println("Please enter transfer amount and \n" +
+                "press enter to continue or \n" +
                 "press enter to go back to Transaction: ");
-        String accountNumber = in.nextLine();
-        if (accountNumber.equals("")) {
+        String input = in.nextLine();
+        if (input.equals("")) {
             dispatcher.dispatch("TRANSACTION");
         } else {
-            TransferConfirmation transferConfirmation = new TransferConfirmation(account, accountNumber, "");
+            transferConfirmation.setTransferAmount(input);
             dispatcher.setTransferConfirmation(transferConfirmation);
-            dispatcher.dispatch("FUNDTRANSFER2");
+            dispatcher.dispatch("FUNDTRANSFER3");
         };
     }
 }
