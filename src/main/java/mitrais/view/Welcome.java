@@ -6,12 +6,9 @@ import mitrais.repository.AccountRepoFactory;
 import mitrais.repository.AccountRepository;
 import mitrais.validator.AccountValidationContext;
 import mitrais.validator.AccountValidationStrategy;
-import mitrais.validator.ValidationStrategy;
 import mitrais.viewhandler.Dispatcher;
 
-import java.util.LinkedHashSet;
 import java.util.Scanner;
-import java.util.Set;
 
 @Data
 public class Welcome implements View {
@@ -23,11 +20,7 @@ public class Welcome implements View {
 
     @Override
     public void display() {
-        Set<ValidationStrategy> strategies = new LinkedHashSet<ValidationStrategy>();
-        strategies.add(AccountValidationStrategy.ACCOUNT_NUMBER);
-        strategies.add(AccountValidationStrategy.PIN);
-
-        AccountValidationContext context = new AccountValidationContext(strategies);
+        AccountValidationContext context = new AccountValidationContext();
         Account account = new Account();
 
         Scanner in = new Scanner(System.in);
@@ -35,11 +28,13 @@ public class Welcome implements View {
         System.out.print("Enter Account Number: ");
         String accountNumber = in.nextLine();
         account.setAccountNumber(accountNumber);
+        context.addStrategy(AccountValidationStrategy.ACCOUNT_NUMBER);
         validate(account, context, this);
 
         System.out.print("Enter PIN: ");
         String pin = in.nextLine();
         account.setPin(pin);
+        context.addStrategy(AccountValidationStrategy.PIN);
         validate(account, context, this);
 
         Account accountDb = accountRepository.get(account.getAccountNumber(), account.getPin());
