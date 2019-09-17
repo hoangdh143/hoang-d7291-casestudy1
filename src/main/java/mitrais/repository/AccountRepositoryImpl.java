@@ -11,6 +11,11 @@ import java.util.HashMap;
 public class AccountRepositoryImpl implements AccountRepository {
     private static HashMap<String, Account> accountList = new HashMap<>();
 
+    public AccountRepositoryImpl() {
+        save(new Account("John Doe", "012108", 100, "112233"));
+        save(new Account("Jane Doe","932012", 30, "112244"));
+    }
+
     @Override
     public Account save(Account account) {
        accountList.put(account.getAccountNumber(), account);
@@ -48,6 +53,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     public TransferSummary transfer(String accountNumber, String destinationAccount, String transferAmount, String refNumber) throws InvalidAccountException, MaximumAmountException, MinimumAmountException, InvalidAmountException, BalanceInsufficientException, InvalidRefNumberException {
         try {Integer.parseInt(accountNumber);} catch (NumberFormatException e) {throw new InvalidAccountException("Invalid account");}
         try {Integer.parseInt(destinationAccount);} catch (NumberFormatException e) {throw new InvalidAccountException("Invalid account");}
+        if (accountNumber.equals(destinationAccount)) throw new InvalidAccountException("Invalid account");
 
         Account sourceAccount = accountList.get(accountNumber);
         Account destAccount = accountList.get(destinationAccount);

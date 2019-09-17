@@ -6,8 +6,17 @@ import java.util.*;
 
 public class AccountValidationContext {
     private Set<ValidationStrategy> accountValidationStrategies;
+
+    public AccountValidationContext() {
+        this.accountValidationStrategies = new LinkedHashSet<>();
+    }
+
     public AccountValidationContext(Set<ValidationStrategy> accountValidationStrategies) {
         this.accountValidationStrategies = accountValidationStrategies;
+    }
+
+    public void addStrategy(ValidationStrategy strategy) {
+        this.accountValidationStrategies.add(strategy);
     }
     /*
      * This method performs validation for fields one by one and return the invalid one if found.
@@ -30,7 +39,7 @@ public class AccountValidationContext {
      */
     public List<String> executeAndGetList(Account account) {
         ValidationStrategy accountValidation;
-        List<String> errorCodes = new ArrayList<String>();
+        List<String> errorCodes = new ArrayList<>();
         for (ValidationStrategy accountValidationStrategy : accountValidationStrategies) {
             accountValidation = accountValidationStrategy;
             Optional<String> errorCode = accountValidation.validate(account);
